@@ -71,7 +71,7 @@ public class MasterInfo
         }
         else
         {
-	    return Response.status( Response.Status.NOT_FOUND ).entity( Boolean.toString( true ).getBytes()).build();
+	    return Response.status( Response.Status.NOT_FOUND ).entity( Boolean.toString( false ).getBytes()).build();
         }
     }
 
@@ -92,7 +92,7 @@ public class MasterInfo
         }
         if ( db.isMaster() )
         {
-            return Response.status( Response.Status.NOT_FOUND ).entity( Boolean.toString( true ).getBytes()).build();
+            return Response.status( Response.Status.NOT_FOUND ).entity( Boolean.toString( false ).getBytes()).build();
 
         }
         else
@@ -101,21 +101,4 @@ public class MasterInfo
         }
     }
 
-
-    /**
-     *
-     * @return A String representation of the form hostname:port if this is an
-     *         HA deployment, empty string otherwise
-     */
-    @GET
-    @Produces( MediaType.TEXT_PLAIN )
-    @Path( "/getMaster" )
-    public String getMaster()
-    {
-        if ( db == null )
-        {
-            return "";
-        }
-        return db.getBroker().getMaster().other().getServerAsString();
-    }
 }
