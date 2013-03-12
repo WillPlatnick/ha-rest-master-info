@@ -50,7 +50,7 @@ public class MasterInfoTest
     }
 
     @Test
-    public void shouldReturn303OnIsMasterFalse() throws Exception
+    public void shouldReturn404OnIsMasterFalse() throws Exception
     {
         when( haDbStub.isMaster() ).thenReturn( false );
         Broker broker = mock( Broker.class );
@@ -59,9 +59,7 @@ public class MasterInfoTest
         when( broker.getMaster() ).thenReturn( master );
         Machine masterMachine = mock( Machine.class );
         when( master.other()).thenReturn( masterMachine );
-        when( masterMachine.getServerAsString() ).thenReturn( "localhost:6001" );
         Response response = new MasterInfo( haDbStub ).isMaster();
-        assertEquals( 303, response.getStatus() );
-        assertEquals( "localhost:6001", response.getMetadata().get( HttpHeaders.LOCATION ).get( 0 ) );
+        assertEquals( 404, response.getStatus() );
     }
 }

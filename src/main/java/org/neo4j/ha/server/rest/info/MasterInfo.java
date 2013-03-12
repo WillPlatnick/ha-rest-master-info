@@ -71,10 +71,36 @@ public class MasterInfo
         }
         else
         {
-            return Response.status( Response.Status.SEE_OTHER ).entity( Boolean.toString( false ).getBytes() ).header(
-                    HttpHeaders.LOCATION, db.getBroker().getMaster().other().getServerAsString() ).build();
+	    return Response.status( Response.Status.NOT_FOUND ).entity( Boolean.toString( true ).getBytes()).build();
         }
     }
+
+
+    /**
+     * @return A String representation of true if this machine is a slave in a
+     *         cluster, false otherwise, as returned by
+     *         {@link Boolean#toString(boolean)} of
+     */
+    @GET
+    @Produces( MediaType.TEXT_PLAIN )
+    @Path( "/isSlave" )
+    public Response isSlave()
+    {
+        if ( db == null )
+        {
+            return Response.status( Response.Status.INTERNAL_SERVER_ERROR ).entity( Boolean.toString( false ).getBytes()).build();
+        }
+        if ( db.isMaster() )
+        {
+            return Response.status( Response.Status.NOT_FOUND ).entity( Boolean.toString( true ).getBytes()).build();
+
+        }
+        else
+        {
+            return Response.status( Response.Status.OK ).entity( Boolean.toString( true ).getBytes()).build();
+        }
+    }
+
 
     /**
      *
